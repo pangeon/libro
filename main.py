@@ -3,11 +3,11 @@ from DataFormatter import DataFormatter
 
 version = float(1.0)
 
-books = FileLoader("base/books.json")
-magazines = FileLoader("base/magazines.json")
-boxed_games = FileLoader("base/boxed_games.json")
-digital_games = FileLoader("base/digital_games.json")
-movies = FileLoader("base/movies.json")
+books = FileLoader("data/books.json")
+magazines = FileLoader("data/magazines.json")
+boxed_games = FileLoader("data/boxed_games.json")
+digital_games = FileLoader("data/digital_games.json")
+movies = FileLoader("data/movies.json")
 
 def welcome_message() -> None:
     print(
@@ -54,6 +54,7 @@ def user_gamebox_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your shelf of games:")
+            DataFormatter(boxed_games.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
@@ -65,6 +66,7 @@ def user_gamedig_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your digital games on cloud:")
+            DataFormatter(digital_games.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
@@ -76,6 +78,7 @@ def user_movies_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your movies:")
+            DataFormatter(movies.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
