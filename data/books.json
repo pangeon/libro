@@ -3,44 +3,60 @@
         "id": 1,
         "isbn": "9788308071234",
         "title": "Solaris",
-        "authors": [
-            "Stanisław Lem"
-        ],
+        "author": "Stanisław Lem",
         "publisher": "Wydawnictwo Literackie",
         "publication_year": 2012,
         "edition": 2,
         "category": "Science fiction",
         "language": "PL",
+        "additional_authors": [],
         "pages": 320,
         "format": "Paperback",
-        "tags": [
-            "Science fiction",
-            "Philosophy",
-            "Psychology"
-        ],
-        "description": "",
-        "condition": "good"
+        "description": "Powieść o kontakcie człowieka z nieznaną formą inteligencji.",
+        "condition": "good",
+        "rating": 9.0,
+        "finished_date": "2024-02-10T00:00:00",
+        "tags": ["science fiction", "klasyka", "psychologia"]
     },
     {
         "id": 2,
         "isbn": "9780140449136",
         "title": "The Odyssey",
-        "authors": [
-            "Homer"
-        ],
+        "author": "Homer",
         "publisher": "Penguin Classics",
         "publication_year": 2003,
         "edition": 1,
         "category": "Epic poetry",
         "language": "EN",
+        "additional_authors": ["Emily Wilson"],
+        "translator": "Emily Wilson",
         "pages": 560,
         "format": "Paperback",
-        "tags": [
-            "Epic poetry",
-            "Greek literature",
-            "Adventure"
-        ],
-        "description": "",
-        "condition": "bad"
+        "series": "Penguin Classics",
+        "description": "An English translation of Homer's epic poem.",
+        "condition": "good",
+        "rating": 8.5,
+        "finished_date": "2023-08-21T00:00:00",
+        "tags": ["epic poetry", "Greek literature", "adventure"]
+    },
+    {
+        "id": 3,
+        "isbn": "9780140449266",
+        "title": "Crime and Punishment",
+        "author": "Fyodor Dostoevsky",
+        "publisher": "Penguin Classics",
+        "publication_year": 2003,
+        "edition": 1,
+        "category": "Novel",
+        "language": "EN",
+        "additional_authors": [],
+        "translator": "David McDuff",
+        "pages": 720,
+        "format": "Paperback",
+        "series": "Penguin Classics",
+        "description": "A psychological novel set in nineteenth-century St. Petersburg.",
+        "condition": "very good",
+        "rating": 9.2,
+        "tags": ["classic", "psychology", "literature"]
     }
 ]

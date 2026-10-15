@@ -1,0 +1,49 @@
+[
+    {
+        "id": 1,
+        "issn": "0036-8733",
+        "title": "Scientific American",
+        "publisher": "Springer Nature",
+        "publication_year": 2024,
+        "category": "Science",
+        "series": "Scientific American",
+        "language": "EN",
+        "pages": 80,
+        "format": "Print",
+        "description": "Popular science magazine covering recent research.",
+        "condition": "good",
+        "finished_date": "2024-03-12T00:00:00",
+        "tags": ["science", "research", "technology"]
+    },
+    {
+        "id": 2,
+        "issn": "0867-888X",
+        "title": "National Geographic Polska",
+        "publisher": "Burda Media Polska",
+        "publication_year": 2023,
+        "category": "Geography",
+        "series": "National Geographic Polska",
+        "language": "PL",
+        "pages": 120,
+        "format": "Print",
+        "description": "Reportaże i fotografie z całego świata.",
+        "condition": "very good",
+        "tags": ["geography", "travel", "photography"]
+    },
+    {
+        "id": 3,
+        "issn": "0028-0836",
+        "title": "Nature",
+        "publisher": "Springer Nature",
+        "publication_year": 2022,
+        "category": "Science",
+        "series": "Nature",
+        "language": "EN",
+        "pages": 160,
+        "format": "Digital",
+        "description": "International journal of science.",
+        "condition": "good",
+        "finished_date": "2022-11-05T00:00:00",
+        "tags": ["science", "research", "journal"]
+    }
+]

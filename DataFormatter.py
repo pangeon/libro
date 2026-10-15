@@ -6,9 +6,18 @@ class DataFormatter:
         for record in self.records[:number_of_records]:
             print(f"------------{record.get('id')}------------")
             for key, value in record.items():
-                print(f"{key}: {value}")
+                # 1. isinstance(value, list) sprawdza, czy wartość jest listą.
+                # 2. przechodzi po kolejnych elemtach listy i skleja je z napisem
+                # 3. inny sposób: value = ", ".join(str(item) for item in value)
+                if isinstance(value, list):
+                    items = []
+                    for item in value:
+                        items.append(str(item))
+                    value = ", ".join(items)
+                else:
+                    print(f"{key}: {value}")
 
-    def display_records_inline(self, number_of_details: int = 10) -> None:
+    def display_records_inline(self, number_of_details: int = 17) -> None:
             lines = str(f"")
             for record in self.records:
                 lines += "\n"

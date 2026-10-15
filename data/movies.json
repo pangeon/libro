@@ -1,0 +1,49 @@
+[
+    {
+        "id": 1,
+        "title": "Arrival",
+        "publication_year": 2016,
+        "category": "Science fiction",
+        "language": "EN",
+        "format": "Blu-ray",
+        "director": "Denis Villeneuve",
+        "translation": "Subtitles[PL, ENG]",
+        "codec": "H.264",
+        "producer": "Shawn Levy",
+        "description": "A linguist works to communicate with visitors from another world.",
+        "rating": 8.5,
+        "finished_date": "2024-04-02T00:00:00",
+        "tags": ["science fiction", "drama", "first contact"]
+    },
+    {
+        "id": 2,
+        "title": "The Grand Budapest Hotel",
+        "publication_year": 2014,
+        "category": "Comedy",
+        "language": "EN",
+        "format": "DVD",
+        "director": "Wes Anderson",
+        "translation": "Dubbing[PL], Subtitles[PL, ENG]",
+        "codec": "MPEG-2",
+        "producer": "Scott Rudin",
+        "description": "A concierge and a lobby boy become involved in a theft and family dispute.",
+        "rating": 8.1,
+        "tags": ["comedy", "drama", "adventure"]
+    },
+    {
+        "id": 3,
+        "title": "Ida",
+        "publication_year": 2013,
+        "category": "Drama",
+        "language": "PL",
+        "format": "Blu-ray",
+        "director": "Paweł Pawlikowski",
+        "translation": "Subtitles[ENG]",
+        "codec": "H.264",
+        "producer": "Eric Abraham",
+        "description": "A young novice uncovers her family's history in 1960s Poland.",
+        "rating": 7.9,
+        "finished_date": "2023-12-20T00:00:00",
+        "tags": ["drama", "Polish cinema", "history"]
+    }
+]

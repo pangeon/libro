@@ -53,7 +53,7 @@ libro/
 
 - **REQUIRED**:
     - id (INT)
-    - isbn (INT)
+    - isbn (STR)
     - title (STR)
     - author (STR)
     - publisher (STR)
@@ -64,7 +64,7 @@ libro/
     
 
 - **OPTIONAL**:
-    - aditional_authors (STR)
+    - aditional_authors (LIST(STR))
     - translator (STR)
     - pages (INT)
     - format (STR)
@@ -79,7 +79,7 @@ libro/
 
 - **REQUIRED**:
     - id (INT)
-    - issn (INT)
+    - issn (STR)
     - title (STR)
     - publisher (STR)
     - publication_year (INT)
@@ -110,8 +110,8 @@ libro/
     
 - **OPTIONAL**:
     - translation (STR) ex. SUBTITLES[PL, ENG, ...], DUBBING[PL, ENG]
-    - aditional_authors (STR)
-    - EAN/UPC (INT)
+    - aditional_authors (LIST(STR))
+    - EAN/UPC (STR)
     - requirements (STR)
     - description (STR)
     - condition (STR)
@@ -135,7 +135,7 @@ libro/
     
 - **OPTIONAL**:
     - translation (STR) ex. SUBTITLES[PL, ENG, ...], DUBBING[PL, ENG]
-    - aditional_authors (STR)
+    - aditional_authors (LIST(STR))
     - requirements (STR)
     - description (STR)
     - rating (FLOAT)
