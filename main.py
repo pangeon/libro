@@ -30,7 +30,7 @@ def user_book_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your book list:")
-            DataFormatter(books.load_file()).display_records()
+            DataFormatter(books.load_file()).display_records_inline(17)
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":

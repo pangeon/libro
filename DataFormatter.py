@@ -15,14 +15,25 @@ class DataFormatter:
                         items.append(str(item))
                     value = ", ".join(items)
                 else:
-                    print(f"{key}: {value}")
+                    pass
+                    
+                print(f"{key}: {value}")
 
-    def display_records_inline(self, number_of_details: int = 17) -> None:
-            lines = str(f"")
+    def display_records_inline(self, number_of_details: int = 10) -> None:
+            lines = ""
             for record in self.records:
                 lines += "\n"
-                for value in list(record.items())[:number_of_details]:
-                    lines += f"{value[1]} | "
+                # podkreślenie _ to nazwa dla wartości, której nie zamierzamy używać. 
+                # klucz _ jest pomijany, bo funkcja wypisuje same wartości.
+                for _, value in list(record.items())[:number_of_details]:
+                    if isinstance(value, list):
+                        # 1. map(str, value) stosuje str() do każdego elementu listy. To zamienia elementy na napisy, nawet jeśli są np. liczbami.
+                        # 2. ", ".join(...) łączy te napisy, wstawiając między nie separator ", ".
+                        value = ", ".join(map(str, value))
+                    else:
+                        pass
+                    
+                    lines += f"{value} | "
 
-            print(f"{lines}")
+            print(lines)
                 
