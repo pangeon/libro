@@ -4,11 +4,16 @@ from datetime import datetime
 from .media_item import MediaItem
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=False)
 class Magazine(MediaItem):
+    id: int
     issn: str
+    title: str
     publisher: str
+    publication_year: int
+    category: str
     series: str
+    language: str
     pages: int | None = None
     format: str | None = None
     description: str | None = None

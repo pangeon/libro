@@ -1,13 +1,13 @@
-from FileLoader import FileLoader
-from DataFormatter import DataFormatter
+from utils import FileManager, DataFormatter
+from models import Book, Magazine, BoxedGame, DigitalGame, Movie
 
 version = float(1.0)
 
-books = FileLoader("data/books.json")
-magazines = FileLoader("data/magazines.json")
-boxed_games = FileLoader("data/boxed_games.json")
-digital_games = FileLoader("data/digital_games.json")
-movies = FileLoader("data/movies.json")
+books = FileManager("data/books.json")
+magazines = FileManager("data/magazines.json")
+boxed_games = FileManager("data/boxed_games.json")
+digital_games = FileManager("data/digital_games.json")
+movies = FileManager("data/movies.json")
 
 def welcome_message() -> None:
     print(
@@ -31,7 +31,37 @@ def user_book_operation_choice(user_operation: str) -> None:
         case "1":
             print("Your book list:")
             DataFormatter(books.load_file()).display_records_inline(17)
-        case "2" | "3" | "4":
+        case "2":
+            # Operuje na pliku JSON, dodając nową książkę do listy książek 
+            # zapisując zaktualizowaną listę z powrotem do pliku.
+            books_list = books.load_file()
+            DataFormatter(books_list).display_records_inline(5)
+            print("---------------------------------")
+
+            print("You're adding a new book to your collection.")
+            print("Please enter the following information.")
+            new_book = Book(
+                    int(input("ID: ")),
+                    str(input("ISBN: ")),
+                    str(input("Title: ")),
+                    str(input("Author: ")),
+                    str(input("Publisher: ")),
+                    int(input("Publication Year: ")),
+                    int(input("Edition: ")),
+                    str(input("Category: ")),
+                    str(input("Language: ")),
+                )
+            
+            # __dict__to słownik nazwa_pola: wartość.
+            books_list.append(new_book.__dict__)
+            try:
+                books.save_file(books_list)
+                print("Book added successfully ! \n")
+                info_about_operations()
+            except Exception as e:
+                print(f"Error occurred while saving books, try again !")
+                print(f"Error details: {e}")
+        case "3" | "4":
             print("Unsupported operation...")
         case "exit":
             print()

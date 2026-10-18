@@ -1,5 +1,5 @@
 {
     "editor.inlineSuggest.edits.renderSideBySide": "never",
     "editor.inlineSuggest.edits.allowCodeShifting": "never",
-    "editor.inlineSuggest.enabled": false
+    "editor.inlineSuggest.enabled": true
 }

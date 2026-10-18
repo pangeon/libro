@@ -1,7 +1,7 @@
 import json
 import sys
 
-class FileLoader:
+class FileManager:
     def __init__(self, file_path) -> None:
         self.file_path = file_path
 
@@ -18,3 +18,18 @@ class FileLoader:
         except Exception as e:
             print(f"An error occurred while loading the file: {e}")
             sys.exit(3)
+
+    def save_file(self, data, encoding='utf-8') -> None:
+        try:
+            with open(self.file_path, 'w', encoding=encoding) as file:
+                json.dump(data, file, indent=4)
+        except json.JSONDecodeError:
+            print(f"Error decoding JSON from file: {self.file_path}")
+            sys.exit(1)
+        except FileNotFoundError:
+            print(f"File not found: {self.file_path}")
+            sys.exit(2)
+        except Exception as e:
+            print(f"An error occurred while saving the file: {e}")
+            sys.exit(3)
+        

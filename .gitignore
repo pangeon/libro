@@ -1,3 +1,5 @@
+.vscode/settings.json
+
 # Python bytecode and caches
 __pycache__
 __pycache__/
