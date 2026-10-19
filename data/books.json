@@ -72,26 +72,5 @@
             "psychology",
             "literature"
         ]
-    },
-    {
-        "id": 4,
-        "isbn": "9788368068580",
-        "title": "Znachor",
-        "author": "Tadeusz Do\u0142\u0119ga-Mostowicz",
-        "publisher": "\u015awiat Ksi\u0105\u017cki",
-        "publication_year": 2024,
-        "edition": 0,
-        "category": "Literatura Powszechna",
-        "language": "PL",
-        "additional_authors": [],
-        "translator": null,
-        "pages": null,
-        "format": null,
-        "series": null,
-        "description": null,
-        "condition": null,
-        "rating": null,
-        "finished_date": null,
-        "tags": []
     }
 ]

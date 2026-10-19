@@ -5,7 +5,7 @@ class FileManager:
     def __init__(self, file_path) -> None:
         self.file_path = file_path
 
-    def load_file(self, encoding='utf-8') -> str:
+    def load_file(self, encoding='utf-8') -> dict:
         try:
             with open(self.file_path, 'r', encoding=encoding) as file:
                 return json.load(file)

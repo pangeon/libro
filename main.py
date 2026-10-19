@@ -32,14 +32,14 @@ def user_book_operation_choice(user_operation: str) -> None:
             print("Your book list:")
             DataFormatter(books.load_file()).display_records_inline(17)
         case "2":
-            # Operuje na pliku JSON, dodając nową książkę do listy książek 
-            # zapisując zaktualizowaną listę z powrotem do pliku.
+            # tworzę obiekt listy z wczytując plik JSON
             books_list = books.load_file()
             DataFormatter(books_list).display_records_inline(5)
             print("---------------------------------")
 
             print("You're adding a new book to your collection.")
             print("Please enter the following information.")
+            # modyfikuje listę dodając do niej nowy rekord na podstawie wzorca z klasy Book.
             new_book = Book(
                     int(input("ID: ")),
                     str(input("ISBN: ")),
@@ -55,14 +55,44 @@ def user_book_operation_choice(user_operation: str) -> None:
             # __dict__to słownik nazwa_pola: wartość.
             books_list.append(new_book.__dict__)
             try:
+                # nadpisuje plik JSON nową listą z dodanym rekordem.
                 books.save_file(books_list)
                 print("Book added successfully ! \n")
                 info_about_operations()
             except Exception as e:
                 print(f"Error occurred while saving books, try again !")
                 print(f"Error details: {e}")
-        case "3" | "4":
-            print("Unsupported operation...")
+        case "3":
+            try:
+                book_id = int(input("Which book you want to edit? [ID]: "))
+                if book_id <= 0:
+                    raise IndexError
+                elif isinstance(book_id, str):
+                    raise ValueError
+                else:
+                    books_list = books.load_file()
+                    print(books_list[book_id-1])
+            except ValueError:
+                print(f'Incorrect format data')
+            except IndexError as e:
+                print(f'Book id does not exist. Try again.')
+            except Exception as e:
+                print(e)
+
+            
+        case "4":
+            book_id = input("Which book you want to delete? [ID]: ")
+            books_list = books.load_file()
+
+            for book in books_list:
+                if str(book["id"]) == book_id:
+                    books_list.remove(book)
+                    books.save_file(books_list)
+                    print(f'Book number: {book_id} deleted. \n')
+                    break
+            else:
+                print(f'Book number: {book_id} not found. Try again.')
+
         case "exit":
             print()
         case _:
