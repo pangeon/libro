@@ -30,7 +30,7 @@ def user_book_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your book list:")
-            DataFormatter(books.load_file()).display_records_inline(17)
+            DataFormatter(books.load_file()).display_records()
         case "2":
             # tworzę obiekt listy z wczytując plik JSON
             books_list = books.load_file()
@@ -62,22 +62,44 @@ def user_book_operation_choice(user_operation: str) -> None:
             except Exception as e:
                 print(f"Error occurred while saving books, try again !")
                 print(f"Error details: {e}")
+
         case "3":
             try:
                 book_id = int(input("Which book you want to edit? [ID]: "))
+                books_list = books.load_file()
+                book_to_edit = []
                 if book_id <= 0:
                     raise IndexError
                 elif isinstance(book_id, str):
                     raise ValueError
                 else:
-                    books_list = books.load_file()
-                    print(books_list[book_id-1])
-            except ValueError:
+                    for book in books_list:
+                        if book["id"] == book_id:
+                            book_to_edit = book
+                            book_id = book["id"]
+                            print("Book to edit:")
+                            print(f'{book["id"]} | {book["isbn"]} | {book["title"]} | {book["author"]}')
+
+                    field_name = input("Wchich field you want to edit: ")
+                    if field_name not in book_to_edit:
+                        raise Exception
+                    for key, value in book_to_edit.items():
+                        if str(key) == str(field_name):
+                            value = input(f'Change "{book_to_edit[key]}" to: ')
+                            book_to_edit[key] = value
+                            print("Operation success !")
+
+                    books.save_file(books_list)
+                    
+            except ValueError as e:
                 print(f'Incorrect format data')
+                print(e)
             except IndexError as e:
+                print(f'Book id to must be higher than 0 and lower {len(books_list)}')
+            except AttributeError as e:
                 print(f'Book id does not exist. Try again.')
             except Exception as e:
-                print(e)
+                print(f"Attribute {field_name} doesn't exist")
 
             
         case "4":

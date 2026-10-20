@@ -1,39 +1,44 @@
 # Architecture
 
-1) User Interface
-    - Display, forms, user actions
+1) Command-line interface and application flow (`main.py`)
+    - Menus, user input, and catalog operations
 
-2) Application Logic Layer
-    - Adding, editing, deleting, validating
+2) Domain models (`models/`)
+    - Data classes for books, magazines, games, and movies
 
-3) Entities and Repositories
-    - Object Model + Data Access Interface
+3) Utilities (`utils/`)
+    - JSON file access and record formatting
 
-4) JSON Files
-    - Reading, writing, updating, and deleting data
+4) JSON data (`data/`)
+    - Catalog records stored in JSON files
 
 # File and directory tree
 
 ```
 libro/
-├── models/
-│   ├── media_item.py
-│   ├── book.py
-│   ├── magazine.py
-│   ├── boxed_game.py
-│   ├── digital_game.py
-│   └── movie.py
-├── repositories/
-│   └── ...
-├── services/
-│   └── ...
+|
 ├── data/
 │   ├── books.json
-│   ├── magazines.json
 │   ├── boxed_games.json
 │   ├── digital_games.json
+│   ├── magazines.json
 │   └── movies.json
-└── main.py
+├── models/
+│   ├── __init__.py
+│   ├── book.py
+│   ├── boxed_game.py
+│   ├── digital_game.py
+│   ├── magazine.py
+│   ├── media_item.py
+│   └── movie.py
+├── utils/
+│   ├── __init__.py
+│   ├── data_formatter.py
+│   └── file_manager.py
+├── main.py
+├── start.sh
+├── test.py
+└── README.MD
 ```
 
 # Data model
@@ -64,7 +69,7 @@ libro/
     
 
 - **OPTIONAL**:
-    - aditional_authors (LIST(STR))
+    - additional_authors (LIST(STR))
     - translator (STR)
     - pages (INT)
     - format (STR)
@@ -72,7 +77,7 @@ libro/
     - description (STR)
     - condition (STR)
     - rating (FLOAT)
-    - finished_date (DATETIME)
+    - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
 ### Magazines
@@ -92,7 +97,7 @@ libro/
     - format (STR)
     - description (STR)
     - condition (STR)
-    - finished_date (DATETIME)
+    - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
 ### Boxed games
@@ -110,13 +115,13 @@ libro/
     
 - **OPTIONAL**:
     - translation (STR) ex. SUBTITLES[PL, ENG, ...], DUBBING[PL, ENG]
-    - aditional_authors (LIST(STR))
-    - EAN/UPC (STR)
+    - additional_authors (LIST(STR))
+    - ean_upc (STR)
     - requirements (STR)
     - description (STR)
     - condition (STR)
     - rating (FLOAT)
-    - finished_date (DATETIME)
+    - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
 ### Digital games
@@ -135,11 +140,11 @@ libro/
     
 - **OPTIONAL**:
     - translation (STR) ex. SUBTITLES[PL, ENG, ...], DUBBING[PL, ENG]
-    - aditional_authors (LIST(STR))
+    - additional_authors (LIST(STR))
     - requirements (STR)
     - description (STR)
     - rating (FLOAT)
-    - finished_date (DATETIME)
+    - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
 ### Movies
@@ -159,6 +164,6 @@ libro/
     - producer (STR)
     - description (STR)
     - rating (FLOAT)
-    - finished_date (DATETIME)
+    - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
