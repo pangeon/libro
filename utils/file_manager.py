@@ -1,5 +1,5 @@
+from datetime import datetime
 import json
-import sys
 
 class FileManager:
     def __init__(self, file_path) -> None:
@@ -11,13 +11,8 @@ class FileManager:
                 return json.load(file)
         except json.JSONDecodeError:
             print(f"Error decoding JSON from file: {self.file_path}")
-            sys.exit(1)
         except FileNotFoundError:
             print(f"File not found: {self.file_path}")
-            sys.exit(2)
-        except Exception as e:
-            print(f"An error occurred while loading the file: {e}")
-            sys.exit(3)
 
     def save_file(self, data, encoding='utf-8') -> None:
         try:
@@ -25,11 +20,23 @@ class FileManager:
                 json.dump(data, file, indent=4)
         except json.JSONDecodeError:
             print(f"Error decoding JSON from file: {self.file_path}")
-            sys.exit(1)
         except FileNotFoundError:
             print(f"File not found: {self.file_path}")
-            sys.exit(2)
-        except Exception as e:
-            print(f"An error occurred while saving the file: {e}")
-            sys.exit(3)
-        
+
+    def copy_file(self, destination_path = "data/copy/") -> None:
+        timestamp: str = self._get_timestamp()
+        copy_path: str = f"{destination_path}copy_{timestamp}.json"
+
+        try:
+            with open(self.file_path, 'r') as source_file:
+                data = source_file.read()
+
+            with open(copy_path, 'x') as copy_file:
+                copy_file.write(data)
+
+        except OSError as e:
+            raise RuntimeError(f"Nie udało się utworzyć kopii pliku {self.file_path}: {e}") from e
+
+    def _get_timestamp(self) -> str:
+        return datetime.now().strftime("%Y%m%d_%H%M%S")
+            

@@ -3,11 +3,11 @@ from models import Book, Magazine, BoxedGame, DigitalGame, Movie
 
 version = float(1.0)
 
-books = FileManager("data/books.json")
-magazines = FileManager("data/magazines.json")
-boxed_games = FileManager("data/boxed_games.json")
-digital_games = FileManager("data/digital_games.json")
-movies = FileManager("data/movies.json")
+books_manager = FileManager("data/books.json")
+magazines_manager = FileManager("data/magazines.json")
+boxed_games_manager = FileManager("data/boxed_games.json")
+digital_games_manager = FileManager("data/digital_games.json")
+movies_manager = FileManager("data/movies.json")
 
 def welcome_message() -> None:
     print(
@@ -30,10 +30,10 @@ def user_book_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your book list:")
-            DataFormatter(books.load_file()).display_records()
+            DataFormatter(books_manager.load_file()).display_records()
         case "2":
             # tworzę obiekt listy z wczytując plik JSON
-            books_list = books.load_file()
+            books_list = books_manager.load_file()
             DataFormatter(books_list).display_records_inline(5)
             print("---------------------------------")
 
@@ -56,7 +56,8 @@ def user_book_operation_choice(user_operation: str) -> None:
             books_list.append(new_book.__dict__)
             try:
                 # nadpisuje plik JSON nową listą z dodanym rekordem.
-                books.save_file(books_list)
+                books_manager.copy_file()
+                books_manager.save_file(books_list)
                 print("Book added successfully ! \n")
                 info_about_operations()
             except Exception as e:
@@ -66,7 +67,7 @@ def user_book_operation_choice(user_operation: str) -> None:
         case "3":
             try:
                 book_id = int(input("Which book you want to edit? [ID]: "))
-                books_list = books.load_file()
+                books_list = books_manager.load_file()
                 book_to_edit = []
                 if book_id <= 0:
                     raise IndexError
@@ -89,7 +90,8 @@ def user_book_operation_choice(user_operation: str) -> None:
                             book_to_edit[key] = value
                             print("Operation success !")
 
-                    books.save_file(books_list)
+                    books_manager.copy_file()
+                    books_manager.save_file(books_list)
                     
             except ValueError as e:
                 print(f'Incorrect format data')
@@ -104,12 +106,13 @@ def user_book_operation_choice(user_operation: str) -> None:
             
         case "4":
             book_id = input("Which book you want to delete? [ID]: ")
-            books_list = books.load_file()
+            books_list = books_manager.load_file()
 
             for book in books_list:
                 if str(book["id"]) == book_id:
                     books_list.remove(book)
-                    books.save_file(books_list)
+                    books_manager.copy_file()
+                    books_manager.save_file(books_list)
                     print(f'Book number: {book_id} deleted. \n')
                     break
             else:
@@ -124,7 +127,7 @@ def user_magazines_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your magazines list:")
-            DataFormatter(magazines.load_file()).display_records()
+            DataFormatter(magazines_manager.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
@@ -136,7 +139,7 @@ def user_gamebox_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your shelf of games:")
-            DataFormatter(boxed_games.load_file()).display_records()
+            DataFormatter(boxed_games_manager.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
@@ -148,7 +151,7 @@ def user_gamedig_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your digital games on cloud:")
-            DataFormatter(digital_games.load_file()).display_records()
+            DataFormatter(digital_games_manager.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
@@ -160,7 +163,7 @@ def user_movies_operation_choice(user_operation: str) -> None:
     match (user_operation):
         case "1":
             print("Your movies:")
-            DataFormatter(movies.load_file()).display_records()
+            DataFormatter(movies_manager.load_file()).display_records()
         case "2" | "3" | "4":
             print("Unsupported operation...")
         case "exit":
@@ -232,7 +235,8 @@ def main():
             case _:
                 print("Invalid option.")
 
-main()
+if __name__ == "__main__":
+    main()
 
 
         

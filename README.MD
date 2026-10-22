@@ -167,3 +167,43 @@ libro/
     - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
+
+# To fix
+
+- [Details of application errors [PL]](/TO_FIX.MD)
+
+### Main problems:
+
+1. Data edition *main.py → user_book_operation_choice(), case 3* change data types.
+
+2. Operation add item *main.py → case 2* don't control ID.
+
+3. Failed handling empty record in edition *main.py → case 3*.
+
+~~4. Saving data to a file may cause file corruption *utils/file_manager.py*.~~
+
+~~5. FileManager contain exit instruction wchich break programme *utils/file_manager.py*.~~
+
+6. The tests do not check CRUD operations *test.py*.
+
+7. Problems with UI
+    - user add item ID manually
+    - user give field name to edition
+    - if item is not found throw exception
+    - remove item is immediately
+    - incorrect number can be saved as text
+
+### Architecture
+1. Create layer service:
+    - common CRUD operations to each collection
+
+        ```
+        class CatalogService:
+            def get_all(self):
+            def get_by_id(self, record_id: int):
+            def add(self, record):
+            def update(self, record_id: int, changes: dict):
+            def delete(self, record_id: int):
+        ```
+
+
