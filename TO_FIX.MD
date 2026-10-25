@@ -1,6 +1,6 @@
 **Najważniejsze problemy**
 ---
-1. **Edycja zmienia typy danych**
+~~1. **Edycja zmienia typy danych**~~
 
     *main.py → user_book_operation_choice(), operacja 3*
 
@@ -8,7 +8,7 @@
 
     - Przykładowo publication_year: 2012 może stać się publication_year: "2012". JSON nadal będzie poprawny składniowo, ale struktura danych przestanie być spójna. Dalszy kod może się na tym wyłożyć.
 
-2. **Dodawanie nie kontroluje identyfikatorów**
+~~2. **Dodawanie nie kontroluje identyfikatorów**~~
 
     *main.py → operacja 2*
 
@@ -16,7 +16,7 @@
 
     - Dwa rekordy z id = 5 sprawią, że edycja lub usuwanie mogą dotyczyć niewłaściwego egzemplarza. ID powinno być generowane automatycznie.
 
-3. **Błędna obsługa braku rekordu przy edycji**
+~~3. **Błędna obsługa braku rekordu przy edycji**~~
 
     *main.py → operacja 3*
 

@@ -33,7 +33,9 @@ class DataFormatter:
                     else:
                         pass
                     
-                    lines += f"{value} | "
+                    lines += f"{value:<22} | "
 
             print(lines)
+
+
                 

@@ -174,11 +174,11 @@ libro/
 
 ### Main problems:
 
-1. Data edition *main.py → user_book_operation_choice(), case 3* change data types.
+~~1. Data edition *main.py → user_book_operation_choice(), case 3* change data types.~~
 
-2. Operation add item *main.py → case 2* don't control ID.
+~~2. Operation add item *main.py → case 2* don't control ID.~~
 
-3. Failed handling empty record in edition *main.py → case 3*.
+~~3. Failed handling empty record in edition *main.py → case 3*.~~
 
 ~~4. Saving data to a file may cause file corruption *utils/file_manager.py*.~~
 
