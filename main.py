@@ -1,5 +1,5 @@
 from utils import FileManager, DataFormatter
-from models import Book, Magazine, BoxedGame, DigitalGame, Movie
+from models import Book, MediaItem, Magazine, BoxedGame, DigitalGame, Movie 
 
 version = float(1.0)
 
@@ -70,7 +70,7 @@ def user_book_operation_choice(user_operation: str) -> None:
             print("Please enter the following information.")
 
             new_book = Book(
-                    int(len(books_list) + 1),
+                    MediaItem.next_id(books_list),
                     str(input("ISBN: ")),
                     str(input("Title: ")),
                     str(input("Author: ")),
@@ -83,7 +83,7 @@ def user_book_operation_choice(user_operation: str) -> None:
             books_list.append(new_book.__dict__)
             try:
                 books_manager.copy_file()
-                books_manager.save_file(books_list)
+                books_manager.protected_save_file(books_list)
                 print("Book added successfully ! \n")
                 info_about_operations()
             except Exception as e:
@@ -97,9 +97,9 @@ def user_book_operation_choice(user_operation: str) -> None:
                 if book_id <= 0:
                     print(f'Book id to must be higher than 0')
                 else:
-                    books_list: dict[str, object] = books_manager.load_file()
+                    books_list: list[dict[str, object]] = books_manager.load_file()
 
-                    book_to_edit: dict[str, object] = next(
+                    book_to_edit: dict[str, object] | None = next(
                         (book for book in books_list if book["id"] == book_id), 
                         None
                     )
@@ -125,25 +125,32 @@ def user_book_operation_choice(user_operation: str) -> None:
 
                             books_manager.copy_file()
                             book_to_edit[field_name] = value
-                            books_manager.save_file(books_list)
+                            books_manager.protected_save_file(books_list)
                             
                             print("Operation success !")
 
             except ValueError as e:
                 print(f'Incorrect format data. Enter a valid number where required.')
         case "4":
-            book_id = input("Which book you want to delete? [ID]: ")
-            books_list = books_manager.load_file()
+            book_id: str = input("Which book you want to delete? [ID]: ")
+            books_list: list[dict[str, object]] = books_manager.load_file()
 
             for book in books_list:
                 if str(book["id"]) == book_id:
-                    books_list.remove(book)
-                    books_manager.copy_file()
-                    books_manager.save_file(books_list)
-                    print(f'Book number: {book_id} deleted. \n')
+                    if input(
+                        f'Are you sure you want to delete [Y] '
+                        f'[ {book["title"]} ]: '
+                    ) == "Y":
+                        books_manager.copy_file()
+                        books_list.remove(book)
+                        books_manager.protected_save_file(books_list)
+                        print(f"Book number: {book_id} deleted.\n")
+                    else:
+                        print("Operation interrupted.")
+                    
                     break
             else:
-                print(f'Book number: {book_id} not found. Try again.')
+                print(f"Book number: {book_id} not found. Try again.")
 
         case "exit":
             print()
