@@ -7,17 +7,15 @@ class FileManager:
     def __init__(self, file_path) -> None:
         self.file_path = file_path
 
-    def load_file(self, encoding='utf-8') -> list[dict[str, object]] | None:
+    def load_file(self, encoding='utf-8') -> list[dict[str, object]]:
         try:
             with open(self.file_path, 'r', encoding=encoding) as file:
                 return json.load(file)
-        except json.JSONDecodeError:
-            print(f"Error decoding JSON from file: {self.file_path}")
         except FileNotFoundError:
             print(f"File not found: {self.file_path}")
-        
-        return None
-    
+        except json.JSONDecodeError:
+            print(f"Error decoding JSON from file: {self.file_path}")
+
     def copy_file(self, destination_path = "data/copy/") -> None:
 
         timestamp: str = self._get_timestamp()

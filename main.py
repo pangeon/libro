@@ -1,5 +1,5 @@
 from utils import FileManager, DataFormatter
-from models import Book, MediaItem, Magazine, BoxedGame, DigitalGame, Movie 
+from models import Book, MediaItem
 from datetime import date
 
 version = float(1.0)
@@ -59,122 +59,134 @@ def info_about_operations() -> None:
     print("Available operations: \n1. SHOW \n2. ADD NEW \n3. EDIT \n4. DELETE")
 
 def user_book_operation_choice(user_operation: str) -> None:
-    match user_operation:
-        case "1":
-            print("Your book list:")
-            DataFormatter(books_manager.load_file()).display_records_inline(8)
-        case "2":
-            books_list = books_manager.load_file()
-            DataFormatter(books_list).display_records_inline(5)
-            
-            print("---------------------------------")
-            print("You're adding a new book to your collection.")
-            print("Please enter the following information.")
+    try:
+        match user_operation:
+            case "1":
+                print("Your book list:")
+                DataFormatter(books_manager.load_file()).display_records_inline(8)
+                info_about_operations()
+            case "2":
+                books_list = books_manager.load_file()
+                DataFormatter(books_list).display_records_inline(5)
+                
+                print("---------------------------------")
+                print("You're adding a new book to your collection.")
+                print("Please enter the following information.")
 
-            try:
-                new_book = Book(
-                        MediaItem.next_id(books_list),
-                        str(input("ISBN: ")),
-                        str(input("Title: ")),
-                        str(input("Author: ")),
-                        str(input("Publisher: ")),
-                        int(input("Publication Year: ")),
-                        int(input("Edition: ")),
-                        str(input("Category: ")),
-                        str(input("Language: ")),
-                    )
-            except ValueError:
-                print("Incorrect input. Enter valid numbers.")
-                return
-            
-            books_list.append(new_book.__dict__)
-            books_manager.copy_file()
-            books_manager.protected_save_file(books_list)
-            
-            print("Book added successfully ! \n")
-            info_about_operations()
+                try:
+                    new_book = Book(
+                            MediaItem.next_id(books_list),
+                            str(input("ISBN: ")),
+                            str(input("Title: ")),
+                            str(input("Author: ")),
+                            str(input("Publisher: ")),
+                            int(input("Publication Year: ")),
+                            int(input("Edition: ")),
+                            str(input("Category: ")),
+                            str(input("Language: ")),
+                        )
+                except ValueError:
+                    print("Incorrect input. Enter valid numbers.")
+                    return
+                
+                books_list.append(new_book.__dict__)
+                books_manager.copy_file()
+                books_manager.protected_save_file(books_list)
+                
+                print("Book added successfully ! \n")
+                info_about_operations()
+            case "3":
+                try:
+                    book_id: int = int(input("Which book you want to edit? [ID]: "))
+                except ValueError:
+                    print("Book ID must be a number.")
+                    info_about_operations()
+                    return
+                
+                if book_id <= 0:
+                    print(f'Book id to must be greater than 0')
+                    info_about_operations()
+                    return
+                
+                books_list: list[dict[str, object]] = books_manager.load_file()
 
-        case "3":
-            try:
-                book_id: int = int(input("Which book you want to edit? [ID]: "))
-            except ValueError:
-                print("Book ID must be a number.")
-                return
-            
-            if book_id <= 0:
-                print(f'Book id to must be greater than 0')
-                return
-            
-            books_list: list[dict[str, object]] = books_manager.load_file()
+                book_to_edit: dict[str, object] = next(
+                    (book for book in books_list if book["id"] == book_id), 
+                    None
+                )
+                if book_to_edit is None:
+                    print(f"Book with ID {book_id} does not exist.")
+                    info_about_operations()
+                    return
+                
+                print("Book to edit:\n")
+                show_book_header(book_to_edit)
+                
+                field_name: str = str(input("Wchich field you want to edit: "))
+                print(
+                    f'--> Expected format date: YYYY-MM-DD\n'
+                    f'--> Expected tags and additional_authors format: item_1, item_2, item_3\n')
 
-            book_to_edit: dict[str, object] = next(
-                (book for book in books_list if book["id"] == book_id), 
-                None
-            )
-            if book_to_edit is None:
-                print(f"Book with ID {book_id} does not exist.")
-                return
-            
-            print("Book to edit:\n")
-            show_book_header(book_to_edit)
-            
-            field_name: str = str(input("Wchich field you want to edit: "))
-            print(f'--> Expected format date: YYYY-MM-DD\n'
-                  f'--> Expected tags and additional_authors format: item_1, item_2, item_3\n')
+                if field_name not in book_to_edit:
+                    print("Incorrect field name")
+                    info_about_operations()
+                    return
+                if field_name == "id":
+                    print("Editing the book ID is not allowed.")
+                    info_about_operations()
+                    return
+                
+                value = input(f'Change "{book_to_edit[field_name]}" to: ')
 
-            if field_name not in book_to_edit:
-                print("Incorrect field name")
-                return
-            if field_name == "id":
-                print("Editing the book ID is not allowed.")
-                return
-            
-            value = input(f'Change "{book_to_edit[field_name]}" to: ')
+                try:
+                    if field_name in ("id", "publication_year", "edition", "pages"):
+                        value = int(value)
+                    elif field_name == "rating":
+                        value = float(value)
+                    elif field_name in ("tags", "additional_authors"):
+                        value = [item.strip() for item in value.split(",") if item.strip()]
+                    elif field_name == "finished_date":
+                        value = date.fromisoformat(value).isoformat() + "T00:00:00"
+                except ValueError:
+                    print("Incorrect format. Enter a valid value.")
+                    info_about_operations()
+                    return
 
-            try:
-                if field_name in ("id", "publication_year", "edition", "pages"):
-                    value = int(value)
-                elif field_name == "rating":
-                    value = float(value)
-                elif field_name in ("tags", "additional_authors"):
-                    value = [item.strip() for item in value.split(",") if item.strip()]
-                elif field_name == "finished_date":
-                    value = date.fromisoformat(value).isoformat() + "T00:00:00"
-            except ValueError:
-                print("Incorrect format. Enter a valid value.")
-                return
+                books_manager.copy_file()
+                book_to_edit[field_name] = value
+                books_manager.protected_save_file(books_list)
+                
+                print("Operation success !")
+                info_about_operations()
+            case "4":
+                book_id: str = input("Which book you want to delete? [ID]: ")
+                books_list: list[dict[str, object]] = books_manager.load_file()
 
-            books_manager.copy_file()
-            book_to_edit[field_name] = value
-            books_manager.protected_save_file(books_list)
-            
-            print("Operation success !")
-
-        case "4":
-            book_id: str = input("Which book you want to delete? [ID]: ")
-            books_list: list[dict[str, object]] = books_manager.load_file()
-
-            for book in books_list:
-                if str(book["id"]) == book_id:
-                    if input(
-                        f'Are you sure you want to delete [Y] '
-                        f'[ {book["title"]} ]: '
-                    ) == "Y":
-                        books_manager.copy_file()
-                        books_list.remove(book)
-                        books_manager.protected_save_file(books_list)
-                        print(f"Book number: {book_id} deleted.\n")
-                    else:
-                        print("Operation interrupted.")
-                    
-                    break
-            else:
-                print(f"Book number: {book_id} not found. Try again.")
-
-        case "exit":
-            print()
-        case _:
-            print("Invalid option.")
+                for book in books_list:
+                    if str(book["id"]) == book_id:
+                        if input(
+                            f'Are you sure you want to delete [Y] '
+                            f'[ {book["title"]} ]: '
+                        ) == "Y":
+                            books_manager.copy_file()
+                            books_list.remove(book)
+                            books_manager.protected_save_file(books_list)
+                            print(f"Book number: {book_id} deleted.\n")
+                            info_about_operations()
+                        else:
+                            print("Operation interrupted.")
+                            info_about_operations()
+                        
+                        break
+                else:
+                    print(f"Book number: {book_id} not found. Try again.")
+                    info_about_operations()
+            case "exit":
+                print()
+            case _:
+                print("Invalid option.")
+    except (OSError, RuntimeError) as error:
+        print(f"Operation failed: {error}")
 
 def user_magazines_operation_choice(user_operation: str) -> None:
     match (user_operation):
