@@ -7,7 +7,7 @@ class FileManager:
     def __init__(self, file_path) -> None:
         self.file_path = file_path
 
-    def load_file(self, encoding='utf-8') -> list[dict[str, object]]:
+    def load_file(self, encoding='utf-8') -> list[dict[str, object]] | None:
         try:
             with open(self.file_path, 'r', encoding=encoding) as file:
                 return json.load(file)
@@ -15,16 +15,9 @@ class FileManager:
             print(f"Error decoding JSON from file: {self.file_path}")
         except FileNotFoundError:
             print(f"File not found: {self.file_path}")
-
-    def save_file(self, data, encoding='utf-8') -> None:
-        try:
-            with open(self.file_path, 'w', encoding=encoding) as file:
-                json.dump(data, file, indent=4)
-        except json.JSONDecodeError:
-            print(f"Error decoding JSON from file: {self.file_path}")
-        except FileNotFoundError:
-            print(f"File not found: {self.file_path}")
-
+        
+        return None
+    
     def copy_file(self, destination_path = "data/copy/") -> None:
 
         timestamp: str = self._get_timestamp()
@@ -40,7 +33,7 @@ class FileManager:
         except OSError as e:
             raise RuntimeError(f"Nie udało się utworzyć kopii pliku {self.file_path}: {e}") from e
 
-    def protected_save_file(self, data, encoding="utf-8"):
+    def protected_save_file(self, data, encoding="utf-8") -> None:
 
         temp_path = None
 
@@ -52,7 +45,7 @@ class FileManager:
                 file.flush()
                 os.fsync(file.fileno())
 
-                os.replace(temp_path, self.file_path)
+            os.replace(temp_path, self.file_path)
         finally:
             if temp_path is not None and os.path.exists(temp_path):
                 os.remove(temp_path)
