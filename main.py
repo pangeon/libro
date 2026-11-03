@@ -1,6 +1,7 @@
 from utils import FileManager, DataFormatter
 from models import Book, MediaItem
 from datetime import date
+from service import CollectionService
 
 version = float(1.0)
 
@@ -24,58 +25,33 @@ Choose any option or type 'exit' to exit the program:
 
 --------------------""")
 
-def show_book_header(book: dict[str, object]) -> None:
-    print(
-        f'{"ID":<5} | '
-        f'{"ISBN":<15} | '
-        f'{"Title":<30} | '
-        f'{"Author":<25} | '
-        f'{"Publisher":<25} | '
-        f'{"Year":<6} | '
-        f'{"Edition":<8} | '
-        f'{"Category":<22} | '
-        f'{"Language":<8}'
-    )
-    print("-" * 160)
-
-    print(
-        f'{book["id"]:<5} | '
-        f'{book["isbn"]:<15} | '
-        f'{book["title"]:<30} | '
-        f'{book["author"]:<25} | '
-        f'{book["publisher"]:<25} | '
-        f'{book["publication_year"]:<6} | '
-        f'{book["edition"]:<8} | '
-        f'{book["category"]:22} | '
-        f'{book["language"]:<8}'
-    )
-    print()
-
-    for property_key, property_value in book.items():
-        if property_value is None or property_value == []:
-            print(f'--> {property_key} is empty.')
-
 def info_about_operations() -> None:
     print("Available operations: \n1. SHOW \n2. ADD NEW \n3. EDIT \n4. DELETE")
 
 def user_book_operation_choice(user_operation: str) -> None:
+
+    book_list: list[dict[str, object]] = books_manager.load_file()
+    book_service: CollectionService = CollectionService(book_list)
+    data_formatter: DataFormatter = DataFormatter(book_service.get_all())
+
     try:
         match user_operation:
             case "1":
                 print("Your book list:")
-                DataFormatter(books_manager.load_file()).display_records_inline(8)
+
+                data_formatter.display_records_inline(7)
                 info_about_operations()
+
             case "2":
-                books_list = books_manager.load_file()
-                DataFormatter(books_list).display_records_inline(5)
-                
+                data_formatter.display_records_inline(7)
+
                 print("---------------------------------")
                 print("You're adding a new book to your collection.")
                 print("Please enter the following information.")
 
                 try:
                     new_book = Book(
-                            MediaItem.next_id(books_list),
+                            MediaItem.next_id(book_service.get_all()),
                             str(input("ISBN: ")),
                             str(input("Title: ")),
                             str(input("Author: ")),
@@ -88,10 +64,10 @@ def user_book_operation_choice(user_operation: str) -> None:
                 except ValueError:
                     print("Incorrect input. Enter valid numbers.")
                     return
-                
-                books_list.append(new_book.__dict__)
+
+                book_service.add_record(new_book)
                 books_manager.copy_file()
-                books_manager.protected_save_file(books_list)
+                books_manager.protected_save_file(book_service.get_all())
                 
                 print("Book added successfully ! \n")
                 info_about_operations()
@@ -108,24 +84,21 @@ def user_book_operation_choice(user_operation: str) -> None:
                     info_about_operations()
                     return
                 
-                books_list: list[dict[str, object]] = books_manager.load_file()
+                book_to_edit: dict[str, object] = book_service.get_by_record(book_id)
 
-                book_to_edit: dict[str, object] = next(
-                    (book for book in books_list if book["id"] == book_id), 
-                    None
-                )
                 if book_to_edit is None:
                     print(f"Book with ID {book_id} does not exist.")
                     info_about_operations()
                     return
                 
                 print("Book to edit:\n")
-                show_book_header(book_to_edit)
+                data_formatter.show_book_header(book_id)
                 
-                field_name: str = str(input("Wchich field you want to edit: "))
-                print(
+                field_name: str = str(input(
+                    f'Wchich field you want to edit: \n'
                     f'--> Expected format date: YYYY-MM-DD\n'
-                    f'--> Expected tags and additional_authors format: item_1, item_2, item_3\n')
+                    f'--> Expected tags and additional_authors format: item_1, item_2, item_3\n'
+                    f'Enter field name: '))
 
                 if field_name not in book_to_edit:
                     print("Incorrect field name")
@@ -153,34 +126,39 @@ def user_book_operation_choice(user_operation: str) -> None:
                     return
 
                 books_manager.copy_file()
-                book_to_edit[field_name] = value
-                books_manager.protected_save_file(books_list)
+                book_service.update_record(book_id, field_name, value)
+                books_manager.protected_save_file(book_service.get_all())
                 
                 print("Operation success !")
                 info_about_operations()
             case "4":
-                book_id: str = input("Which book you want to delete? [ID]: ")
-                books_list: list[dict[str, object]] = books_manager.load_file()
+                try:
+                    book_id: int = int(input("Which book you want to delete? [ID]: "))
+                except ValueError:
+                    print("Incorrect format. Enter a valid value.")
+                    info_about_operations()
+                    return
 
-                for book in books_list:
-                    if str(book["id"]) == book_id:
-                        if input(
-                            f'Are you sure you want to delete [Y] '
-                            f'[ {book["title"]} ]: '
-                        ) == "Y":
-                            books_manager.copy_file()
-                            books_list.remove(book)
-                            books_manager.protected_save_file(books_list)
-                            print(f"Book number: {book_id} deleted.\n")
-                            info_about_operations()
-                        else:
-                            print("Operation interrupted.")
-                            info_about_operations()
-                        
-                        break
-                else:
+                if book_service.get_by_record(book_id) == None:
                     print(f"Book number: {book_id} not found. Try again.")
                     info_about_operations()
+                    return
+                else:    
+                    if input(
+                        f'Are you sure you want to delete [Y] '
+                        f'[ {book_service.get_by_record(book_id)["title"]} ]: '
+                    ) == "Y":
+                        books_manager.copy_file()
+                        book_service.delete_record(book_id)
+                        books_manager.protected_save_file(book_service.get_all())
+                        print(f'Book {book_id} is deleted.')
+                        info_about_operations()
+                        return
+                    else:
+                        print("Operation interrupted.")
+                        info_about_operations()
+                        return
+                
             case "exit":
                 print()
             case _:

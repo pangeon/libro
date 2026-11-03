@@ -2,15 +2,21 @@
 
 1) Command-line interface and application flow (`main.py`)
     - Menus, user input, and catalog operations
+    - Books support show, add, edit, and delete operations
+    - Other catalogs currently support showing records only
 
 2) Domain models (`models/`)
-    - Data classes for books, magazines, games, and movies
+    - Data classes for books, magazines, boxed and digital games, and movies
 
-3) Utilities (`utils/`)
+3) Collection operations (`service/`)
+    - `CollectionService` provides in-memory collection lookup and CRUD methods
+
+4) Utilities (`utils/`)
     - JSON file access and record formatting
 
-4) JSON data (`data/`)
+5) JSON data and backups (`data/`)
     - Catalog records stored in JSON files
+    - A copy of a data file is created in `data/copy/` before book changes are saved
 
 # File and directory tree
 
@@ -18,6 +24,7 @@
 libro/
 |
 ├── data/
+│   ├── copy/
 │   ├── books.json
 │   ├── boxed_games.json
 │   ├── digital_games.json
@@ -31,6 +38,9 @@ libro/
 │   ├── magazine.py
 │   ├── media_item.py
 │   └── movie.py
+├── service/
+│   ├── __init__.py
+│   └── collection_service.py
 ├── utils/
 │   ├── __init__.py
 │   ├── data_formatter.py
@@ -40,6 +50,24 @@ libro/
 ├── test.py
 └── README.MD
 ```
+
+# Running and tests
+
+Run the application from the project directory:
+
+```bash
+python3 main.py
+```
+
+Run the unit tests with:
+
+```bash
+python3 test.py
+```
+
+The application currently implements full CRUD operations for books. Magazines,
+boxed games, digital games, and movies can be displayed, but their add, edit,
+and delete operations are not implemented yet.
 
 # Data model
 
@@ -167,43 +195,4 @@ libro/
     - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
-
-# To fix
-
-- [Details of application errors [PL]](/TO_FIX.MD)
-
-### Main problems:
-
-~~1. Data edition *main.py → user_book_operation_choice(), case 3* change data types.~~
-
-~~2. Operation add item *main.py → case 2* don't control ID.~~
-
-~~3. Failed handling empty record in edition *main.py → case 3*.~~
-
-~~4. Saving data to a file may cause file corruption *utils/file_manager.py*.~~
-
-~~5. FileManager contain exit instruction wchich break programme *utils/file_manager.py*.~~
-
-6. The tests do not check CRUD operations *test.py*.
-
-7. Problems with UI
-    - user add item ID manually
-    - user give field name to edition
-    - if item is not found throw exception
-    - remove item is immediately
-    - incorrect number can be saved as text
-
-### Architecture
-1. Create layer service:
-    - common CRUD operations to each collection
-
-        ```
-        class CatalogService:
-            def get_all(self):
-            def get_by_id(self, record_id: int):
-            def add(self, record):
-            def update(self, record_id: int, changes: dict):
-            def delete(self, record_id: int):
-        ```
-
 

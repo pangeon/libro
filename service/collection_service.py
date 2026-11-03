@@ -1,0 +1,31 @@
+class CollectionService:
+
+    def __init__(self, collection: list[dict[str, object]]):
+        self.collection = collection
+
+    def get_all(self) -> list[dict[str, object]]:
+        return self.collection
+
+    def get_index(self, id: int) -> dict[str, object]:
+        return self.collection[id]
+
+    def get_by_record(self, record_id: int) -> dict[str, object]:
+        for record in self.collection:
+            if record.get("id") == record_id:
+                return record
+
+    def add_record(self, record: dict[str, object]) -> None:
+        self.collection.append(record.__dict__)
+
+    def delete_record(self, record_id: int) -> None:
+        for record in self.collection:
+            if record.get("id") == record_id:
+                self.collection.remove(record)
+
+    def update_record(self, record_id: int, field_name: str, value: str | int | list) -> None:
+        for record in self.collection:
+            if record.get("id") == record_id:
+                record[field_name] = value
+
+
+
