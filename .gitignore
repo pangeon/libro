@@ -1,6 +1,5 @@
-.vscode/settings.json
+.vscode/
 data/copy/
-data/*
 
 # Python bytecode and caches
 __pycache__
