@@ -1,3 +1,5 @@
+from dataclasses import asdict, is_dataclass
+
 class CollectionService:
 
     def __init__(self, collection: list[dict[str, object]]):
@@ -14,8 +16,14 @@ class CollectionService:
             if record.get("id") == record_id:
                 return record
 
-    def add_record(self, record: dict[str, object]) -> None:
-        self.collection.append(record.__dict__)
+    def add_record(self, record: dict[str, object] | object) -> None:
+        if is_dataclass(record) and not isinstance(record, type):
+            record = asdict(record)
+
+        if not isinstance(record, dict):
+            raise TypeError("Record must be a dictionary or dataclass.")
+
+        self.collection.append(record)
 
     def delete_record(self, record_id: int) -> None:
         for record in self.collection:
@@ -26,6 +34,3 @@ class CollectionService:
         for record in self.collection:
             if record.get("id") == record_id:
                 record[field_name] = value
-
-
-

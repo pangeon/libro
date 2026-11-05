@@ -2,8 +2,7 @@
 
 1) Command-line interface and application flow (`main.py`)
     - Menus, user input, and catalog operations
-    - Books support show, add, edit, and delete operations
-    - Other catalogs currently support showing records only
+    - All catalogs support show, add, edit, and delete operations
 
 2) Domain models (`models/`)
     - Data classes for books, magazines, boxed and digital games, and movies
@@ -16,7 +15,7 @@
 
 5) JSON data and backups (`data/`)
     - Catalog records stored in JSON files
-    - A copy of a data file is created in `data/copy/` before book changes are saved
+    - A copy of the relevant data file is created in `data/copy/` before changes are saved
 
 # File and directory tree
 
@@ -65,9 +64,8 @@ Run the unit tests with:
 python3 test.py
 ```
 
-The application currently implements full CRUD operations for books. Magazines,
-boxed games, digital games, and movies can be displayed, but their add, edit,
-and delete operations are not implemented yet.
+The application implements full CRUD operations for books, magazines, boxed
+games, digital games, and movies.
 
 # Data model
 
@@ -195,4 +193,3 @@ and delete operations are not implemented yet.
     - finished_date (DATETIME; stored as an ISO 8601 string in JSON)
     - tags (LIST(STR))
 ---
-
