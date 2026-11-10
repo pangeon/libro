@@ -1,21 +1,25 @@
 #!/bin/bash
-DIRECTORY="data/copy"
+DIRECTORY="data/"
+DIRECTORY_COPY="data/copy"
 
-if [ -d "$DIRECTORY" ]; then
-  echo "Folder $DIRECTORY is exist."
-else
-  echo "Folder $DIRECTORY does not exist, creating..."
-  mkdir -p "$DIRECTORY"
-fi
 
-files=("book.json" "magazines.json" "boxed_games.json" "digital_games.json" "movies.json")
+for directory in "$DIRECTORY_COPY" "$DIRECTORY"; do
+  if [ -d "$directory" ]; then
+    echo "Folder $directory is exist."
+  else
+    echo "Folder $directory does not exist, creating..."
+    mkdir -p "$directory"
+  fi
+done
+
+files=("books.json" "magazines.json" "boxed_games.json" "digital_games.json" "movies.json")
 
 for file in "${files[@]}"; do
   filepath="$DIRECTORY/$file"
   
   if [ ! -s "$filepath" ]; then
     echo "[]" > "$filepath"
-    echo "Created/initialized file $filepath with content []"
+    echo "- Created/initialized file $filepath with content []"
   else
     echo "File $filepath already exists and contains data."
   fi

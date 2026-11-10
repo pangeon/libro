@@ -1,4 +1,5 @@
 class DataFormatter:
+
     def __init__(self, records: list[dict[str, object]]) -> None:
         self.records = records
 
@@ -16,56 +17,87 @@ class DataFormatter:
                     
                 print(f"{key}: {value}")
 
-    def display_records_inline(self, number_of_details: int = 10) -> None:
-            lines = ""
-            header = f'{"ID":<22} | {"ISBN":<22} | {"Title":<22} | {"Author":<22} | {"Publisher":<22} | {"Year":<22} | {"Edition":<22} | \n'
-            header += "-" * len(header)
-            lines += header
-            for record in self.records:
-                lines += "\n"
-                
-                for _, value in list(record.items())[:number_of_details]:
-                    if isinstance(value, list):
-                        value = ", ".join(map(str, value))
-                    else:
-                        pass
-                    
-                    lines += f"{value:<22} | "
+    def display_records_inline(self, class_name: str, number_of_columns: int = 10) -> None:
+        if not self.records:
+            print("No records to display. Your collection is empty.\n")
+            return
 
-            print(lines)
-
-    def show_book_header(self, book_id: int) -> None:
+        lines = self._get_collection_table_header(class_name, number_of_columns)
         for record in self.records:
-            if record["id"] == book_id:
-                print(
-                    f'{"ID":<5} | '
-                    f'{"ISBN":<15} | '
-                    f'{"Title":<30} | '
-                    f'{"Author":<25} | '
-                    f'{"Publisher":<25} | '
-                    f'{"Year":<6} | '
-                    f'{"Edition":<8} | '
-                    f'{"Category":<22} | '
-                    f'{"Language":<8}'
-                )
-                print("-" * 160)
-            
-                print(
-                    f'{record["id"]:<5} | '
-                    f'{record["isbn"]:<15} | '
-                    f'{record["title"]:<30} | '
-                    f'{record["author"]:<25} | '
-                    f'{record["publisher"]:<25} | '
-                    f'{record["publication_year"]:<6} | '
-                    f'{record["edition"]:<8} | '
-                    f'{record["category"]:22} | '
-                    f'{record["language"]:<8}'
-                )
+            lines += "\n" + self._get_collection_table_values_row(
+                record["id"], number_of_columns
+            )
+
+        print(lines)
+
+    def show_item_header(self, class_name: str, item_id: int, number_of_columns: int = 7) -> None:
+        for record in self.records:
+            if record["id"] == item_id:
+                print(self._get_collection_table_header(class_name, number_of_columns))
+                print(self._get_collection_table_values_row(item_id, number_of_columns))
                 print()
 
                 for property_key, property_value in record.items():
                     if property_value is None or property_value == []:
                         print(f'--> {property_key} is empty.')
 
+    def _get_collection_table_header(self, class_name: str, number_of_columns: int = 7) -> str:
 
-                
+        match class_name:
+            case "Book":
+                columns = (
+                    ("ID", 5), ("ISBN", 15), ("Title", 30), ("Author", 25),
+                    ("Publisher", 25), ("Year", 6), ("Edition", 8),
+                    ("Category", 22), ("Language", 8),
+                )
+            case "Magazine":
+                columns = (
+                    ("ID", 5), ("ISSN", 15), ("Title", 30), ("Publisher", 25),
+                    ("Year", 6), ("Category", 22), ("Series", 22),
+                    ("Language", 8),
+                )
+            case "BoxedGame":
+                columns = (
+                    ("ID", 5), ("Title", 30), ("Producer", 25),
+                    ("Publisher", 25), ("Year", 6), ("Platform", 22),
+                    ("Category", 22), ("Language", 8), ("Series", 22),
+                )
+            case "DigitalGame":
+                columns = (
+                    ("ID", 5), ("Title", 30), ("Store", 25), ("Producer", 25),
+                    ("Publisher", 25), ("Year", 6), ("Platform", 22),
+                    ("Category", 22), ("Language", 8), ("Series", 22),
+                )
+            case "Movie":
+                columns = (
+                    ("ID", 5), ("Title", 30), ("Year", 6), ("Category", 22),
+                    ("Language", 8), ("Format", 10), ("Director", 20),
+                )
+            case _:
+                print("Classname in header is not defined.")
+                return ""
+
+        header = " | ".join(f"{name:<{width}}" for name, width in columns[:number_of_columns])
+        return f"{header}\n{'-' * len(header)}"
+
+    def _get_collection_table_values_row(self, item_id: int, number_of_columns: int) -> str:
+
+        column_widths: dict[str, int] = { 
+            "id": 5, "isbn": 15, "issn": 15, "title": 30, "author": 25, "producer": 25, "publisher": 25, "store": 25, 
+            "publication_year": 6, "edition": 8, "category": 22, "platform": 22, "series": 22, "language": 8,
+            "format": 10, "director": 20,
+        }
+        
+        for record in self.records:
+            if record["id"] == item_id:
+                values = []
+                for key, value in record.items():
+                    if isinstance(value, list):
+                        value = ", ".join(map(str, value))
+                    values.append(f"{str(value):<{column_widths.get(key, 22)}}")
+
+                    if len(values) == number_of_columns:
+                        break
+                return " | ".join(values)
+
+        return ""

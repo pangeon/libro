@@ -17,6 +17,9 @@ class CollectionService:
                 return record
 
     def add_record(self, record: dict[str, object] | object) -> None:
+        if self.collection is None:
+            self.collection = []
+        
         if is_dataclass(record) and not isinstance(record, type):
             record = asdict(record)
 

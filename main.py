@@ -39,10 +39,10 @@ def user_book_operation_choice(user_operation: str) -> None:
             case "1":
                 print("Your book list:")
 
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("Book", 9)
                 info_about_operations()
             case "2":
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("Book", 9)
 
                 print("---------------------------------")
                 print("You're adding a new book to your collection.")
@@ -91,7 +91,7 @@ def user_book_operation_choice(user_operation: str) -> None:
                     return
                 
                 print("Book to edit:\n")
-                data_formatter.show_book_header(book_id)
+                data_formatter.show_item_header("Book", book_id)
                 
                 field_name: str = str(input(
                     f'Wchich field you want to edit: \n'
@@ -174,10 +174,10 @@ def user_magazines_operation_choice(user_operation: str) -> None:
         match user_operation:
             case "1":
                 print("Your magazines list:")
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("Magazine", 8)
                 info_about_operations()
             case "2":
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("Magazine", 8)
                 print("---------------------------------")
                 print("You're adding a new magazine to your collection.")
                 print("Please enter the following information.")
@@ -222,7 +222,9 @@ def user_magazines_operation_choice(user_operation: str) -> None:
                     info_about_operations()
                     return
 
-                print(f"Magazine to edit: {magazine_to_edit}")
+                print(f"Magazine to edit:")
+                data_formatter.show_item_header("Magazine", magazine_id, 8)
+
                 field_name: str = str(input("Enter field name: "))
                 if field_name not in magazine_to_edit:
                     print("Incorrect field name")
@@ -296,10 +298,10 @@ def user_gamebox_operation_choice(user_operation: str) -> None:
         match user_operation:
             case "1":
                 print("Your shelf of games:")
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("BoxedGame", 9)
                 info_about_operations()
             case "2":
-                data_formatter.display_inline_records(7)
+                data_formatter.display_records_inline("BoxedGame", 9)
                 print("---------------------------------")
                 print("You're adding a new boxed game to your collection.")
                 print("Please enter the following information.")
@@ -345,7 +347,9 @@ def user_gamebox_operation_choice(user_operation: str) -> None:
                     info_about_operations()
                     return
 
-                print(f"Game to edit: {game_to_edit}")
+                print(f"Game to edit:")
+                data_formatter.show_item_header("BoxedGame", game_id, 9)
+
                 field_name: str = str(input("Enter field name: "))
                 if field_name not in game_to_edit:
                     print("Incorrect field name")
@@ -419,10 +423,10 @@ def user_gamedig_operation_choice(user_operation: str) -> None:
         match user_operation:
             case "1":
                 print("Your digital games on cloud:")
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("DigitalGame", 9)
                 info_about_operations()
             case "2":
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("DigitalGame", 9)
                 print("---------------------------------")
                 print("You're adding a new digital game to your collection.")
                 print("Please enter the following information.")
@@ -469,7 +473,9 @@ def user_gamedig_operation_choice(user_operation: str) -> None:
                     info_about_operations()
                     return
 
-                print(f"Game to edit: {game_to_edit}")
+                print(f"Game to edit:")
+                data_formatter.show_item_header("DigitalGame", game_id, 9)
+
                 field_name: str = str(input("Enter field name: "))
                 if field_name not in game_to_edit:
                     print("Incorrect field name")
@@ -543,10 +549,10 @@ def user_movies_operation_choice(user_operation: str) -> None:
         match user_operation:
             case "1":
                 print("Your movies:")
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("Movie", 7)
                 info_about_operations()
             case "2":
-                data_formatter.display_records_inline(7)
+                data_formatter.display_records_inline("Movie", 7)
                 print("---------------------------------")
                 print("You're adding a new movie to your collection.")
                 print("Please enter the following information.")
@@ -590,7 +596,9 @@ def user_movies_operation_choice(user_operation: str) -> None:
                     info_about_operations()
                     return
 
-                print(f"Movie to edit: {movie_to_edit}")
+                print(f"Movie to edit:")
+                data_formatter.show_item_header("Movie", movie_id)
+
                 field_name: str = str(input("Enter field name: "))
                 if field_name not in movie_to_edit:
                     print("Incorrect field name")

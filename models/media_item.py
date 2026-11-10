@@ -7,4 +7,7 @@ class MediaItem:
 
     @staticmethod
     def next_id(collection):
-        return max((item["id"] for item in collection), default=0) + 1
+        if collection is None:
+            return 1
+        else:
+            return max((item["id"] for item in collection), default=0) + 1
