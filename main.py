@@ -44,7 +44,6 @@ def user_book_operation_choice(user_operation: str) -> None:
             case "2":
                 data_formatter.display_records_inline("Book", 9)
 
-                print("---------------------------------")
                 print("You're adding a new book to your collection.")
                 print("Please enter the following information.")
 
@@ -178,7 +177,7 @@ def user_magazines_operation_choice(user_operation: str) -> None:
                 info_about_operations()
             case "2":
                 data_formatter.display_records_inline("Magazine", 8)
-                print("---------------------------------")
+
                 print("You're adding a new magazine to your collection.")
                 print("Please enter the following information.")
 
@@ -302,7 +301,7 @@ def user_gamebox_operation_choice(user_operation: str) -> None:
                 info_about_operations()
             case "2":
                 data_formatter.display_records_inline("BoxedGame", 9)
-                print("---------------------------------")
+
                 print("You're adding a new boxed game to your collection.")
                 print("Please enter the following information.")
 
@@ -427,7 +426,7 @@ def user_gamedig_operation_choice(user_operation: str) -> None:
                 info_about_operations()
             case "2":
                 data_formatter.display_records_inline("DigitalGame", 9)
-                print("---------------------------------")
+
                 print("You're adding a new digital game to your collection.")
                 print("Please enter the following information.")
 
@@ -553,7 +552,7 @@ def user_movies_operation_choice(user_operation: str) -> None:
                 info_about_operations()
             case "2":
                 data_formatter.display_records_inline("Movie", 7)
-                print("---------------------------------")
+
                 print("You're adding a new movie to your collection.")
                 print("Please enter the following information.")
 

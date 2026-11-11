@@ -46,32 +46,32 @@ class DataFormatter:
         match class_name:
             case "Book":
                 columns = (
-                    ("ID", 5), ("ISBN", 15), ("Title", 30), ("Author", 25),
-                    ("Publisher", 25), ("Year", 6), ("Edition", 8),
-                    ("Category", 22), ("Language", 8),
+                    ("ID", 3), ("ISBN", 20), ("Title", 35), ("Author", 25),
+                    ("Publisher", 25), ("Year", 4), ("Ed", 2),
+                    ("Category", 22), ("Lang", 4),
                 )
             case "Magazine":
                 columns = (
-                    ("ID", 5), ("ISSN", 15), ("Title", 30), ("Publisher", 25),
-                    ("Year", 6), ("Category", 22), ("Series", 22),
-                    ("Language", 8),
+                    ("ID", 3), ("ISSN", 15), ("Title", 35), ("Publisher", 25),
+                    ("Year", 4), ("Category", 22), ("Series", 22),
+                    ("Lang", 4),
                 )
             case "BoxedGame":
                 columns = (
-                    ("ID", 5), ("Title", 30), ("Producer", 25),
-                    ("Publisher", 25), ("Year", 6), ("Platform", 22),
-                    ("Category", 22), ("Language", 8), ("Series", 22),
+                    ("ID", 3), ("Title", 35), ("Producer", 25),
+                    ("Publisher", 25), ("Year", 4), ("Platform", 22),
+                    ("Category", 22), ("Lang", 4), ("Series", 22),
                 )
             case "DigitalGame":
                 columns = (
-                    ("ID", 5), ("Title", 30), ("Store", 25), ("Producer", 25),
-                    ("Publisher", 25), ("Year", 6), ("Platform", 22),
-                    ("Category", 22), ("Language", 8), ("Series", 22),
+                    ("ID", 3), ("Title", 35), ("Store", 10), ("Producer", 25),
+                    ("Publisher", 25), ("Year", 4), ("Platform", 22),
+                    ("Category", 22), ("Lang", 4), ("Series", 22),
                 )
             case "Movie":
                 columns = (
-                    ("ID", 5), ("Title", 30), ("Year", 6), ("Category", 22),
-                    ("Language", 8), ("Format", 10), ("Director", 20),
+                    ("ID", 3), ("Title", 35), ("Year", 4), ("Category", 22),
+                    ("Lang", 4), ("Format", 15), ("Director", 20),
                 )
             case _:
                 print("Classname in header is not defined.")
@@ -83,9 +83,9 @@ class DataFormatter:
     def _get_collection_table_values_row(self, item_id: int, number_of_columns: int) -> str:
 
         column_widths: dict[str, int] = { 
-            "id": 5, "isbn": 15, "issn": 15, "title": 30, "author": 25, "producer": 25, "publisher": 25, "store": 25, 
-            "publication_year": 6, "edition": 8, "category": 22, "platform": 22, "series": 22, "language": 8,
-            "format": 10, "director": 20,
+            "id": 3, "isbn": 20, "issn": 15, "title": 35, "author": 25, "producer": 25, "publisher": 25, "store": 10, 
+            "publication_year": 4, "edition": 2, "category": 22, "platform": 22, "series": 22, "language": 4,
+            "format": 15, "director": 20,
         }
         
         for record in self.records:
